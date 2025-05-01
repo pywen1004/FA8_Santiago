@@ -1,0 +1,93 @@
+---
+title: "FA8"
+author: "Owen Santiago"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Introduction
+
+This report answers statistical questions related to normal distributions, including probabilities, percentiles, and conditional analysis.
+
+**GitHub Repository:**  
+[https://github.com/pywen1004/FA8_Santiago.git](https://github.com/pywen1004/FA8_Santiago.git)
+
+---
+
+## Question 1: Analogue Signal
+
+**Given:**  
+Mean = 200 μV  
+Standard Deviation = 16 μV (from variance of 256)
+
+```{r question1}
+mean_uv <- 200
+sd_uv <- sqrt(256)
+
+# (a) Probability signal exceeds 224 μV
+prob_a <- 1 - pnorm(224, mean = mean_uv, sd = sd_uv)
+
+# (b) Probability signal is between 186 and 224 μV
+prob_b <- pnorm(224, mean = mean_uv, sd = sd_uv) - 
+          pnorm(186, mean = mean_uv, sd = sd_uv)
+
+# (c) 25th percentile microvolt level
+percentile_c <- qnorm(0.25, mean = mean_uv, sd = sd_uv)
+
+# (d) Probability signal < 240 μV given it's > 210 μV
+prob_d <- (pnorm(240, mean = mean_uv, sd = sd_uv) - 
+           pnorm(210, mean = mean_uv, sd = sd_uv)) / 
+          (1 - pnorm(210, mean = mean_uv, sd = sd_uv))
+
+# (e) Interquartile Range
+q1 <- qnorm(0.25, mean = mean_uv, sd = sd_uv)
+q3 <- qnorm(0.75, mean = mean_uv, sd = sd_uv)
+iqr_e <- q3 - q1
+
+# (f) Probability signal < 220 μV given it's > 210 μV
+prob_f <- (pnorm(220, mean = mean_uv, sd = sd_uv) - 
+           pnorm(210, mean = mean_uv, sd = sd_uv)) / 
+          (1 - pnorm(210, mean = mean_uv, sd = sd_uv))
+
+# (g) Probability signal > 220 μV given it's > 200 μV
+prob_g <- (1 - pnorm(220, mean = mean_uv, sd = sd_uv)) / 
+          (1 - pnorm(200, mean = mean_uv, sd = sd_uv))
+
+# Output
+list(
+  "Q1a: P(X > 224)" = prob_a,
+  "Q1b: P(186 < X < 224)" = prob_b,
+  "Q1c: 25th Percentile" = percentile_c,
+  "Q1d: P(X < 240 | X > 210)" = prob_d,
+  "Q1e: Interquartile Range (IQR)" = iqr_e,
+  "Q1f: P(X < 220 | X > 210)" = prob_f,
+  "Q1g: P(X > 220 | X > 200)" = prob_g
+)
+```
+
+## Question 2: Downtime Analysis
+
+**Given:**  
+Mean = 25 minutes  
+Standard Deviation = 12 minutes (from variance of 144)
+
+```{r question2}
+mean_min <- 25
+sd_min <- sqrt(144)
+
+# (a) 95% range of downtime
+range_95_a <- qnorm(c(0.025, 0.975), mean = mean_min, sd = sd_min)
+
+# (b) Downtime above which 10% of cases fall
+upper_10_bound_b <- qnorm(0.90, mean = mean_min, sd = sd_min)
+
+# Output
+list(
+  "Q2a: 95% Range" = range_95_a,
+  "Q2b: 90th Percentile (Top 10% Downtime)" = upper_10_bound_b
+)
+```
