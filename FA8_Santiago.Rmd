@@ -1,6 +1,6 @@
 ---
 title: "FA8"
-author: "Owen Santiago"
+author: "Owen Reign Santiago"
 date: "May. 1, 2025"
 output: pdf_document
 ---
